@@ -13,7 +13,7 @@ namespace Lema.Commands
     {
         public override void Execute()
         {
-            TaskDialog.Show(Document.Title, "Lema");
+            TaskDialog.Show(Document.Title, "BSSE");
         }
     }
 }
