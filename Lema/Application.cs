@@ -1,26 +1,30 @@
 ﻿using Lema.Commands;
-using Nice3point.Revit.Toolkit.External;
+using Autodesk.Revit.UI;
 
+//This application belongs to the root namespace
 namespace Lema
 {
-    /// <summary>
-    ///     Application entry point
-    /// </summary>
-    [UsedImplicitly]
-    public class Application : ExternalApplication
-    {
-        public override void OnStartup()
+    // Implementing the interface for the application
+    public class Application: IExternalApplication
+    { 
+        //This will run on startup
+        public Result OnStartup(UIControlledApplication uiCtrlApp)
         {
-            CreateRibbon();
+            // Collect the controlled application
+            var ctrlapp = uiCtrlApp.ControlledApplication;
+
+            // Register your command here if needed
+
+            //Final return
+            return Result.Succeeded;
         }
 
-        private void CreateRibbon()
+        //This will run on shutdown
+        public Result OnShutdown(UIControlledApplication uiCtrlApp)
         {
-            var panel = Application.CreatePanel("Commands", "Lema");
-
-            panel.AddPushButton<StartupCommand>("Execute")
-                .SetImage("/Lema;component/Resources/Icons/RibbonIcon16.png")
-                .SetLargeImage("/Lema;component/Resources/Icons/RibbonIcon32.png");
+            // Clean up resources if needed
+            return Result.Succeeded;
         }
     }
+
 }
