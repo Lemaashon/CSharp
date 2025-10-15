@@ -20,7 +20,7 @@ namespace Lema.Cmds_General
             Document doc = uiDoc.Document;
 
             // Implement your command logic here
-
+            TaskDialog.Show("It´s working", doc.Title);
             return Result.Succeeded;
         }
     }
