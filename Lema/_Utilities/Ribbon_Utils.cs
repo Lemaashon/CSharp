@@ -67,20 +67,23 @@ namespace Lema._Utilities
         /// <param name="InternalName">Test</param>
         /// <param name="assemblyPath">Test</param>
         /// <returns></returns>
-        public static PushButton? AddPushButtonToPanel(RibbonPanel panel, string buttonName, string className, 
-            string InternalName, string assemblyPath)
+        public static PushButton? AddPushButtonToPanel(RibbonPanel panel, string buttonName, string className)
         {
-            if (panel is  null)
+            if (panel is null)
             {
                 Debug.WriteLine($"ERROR: Could not add {buttonName} to panel");
                 return null;
             }
 
-            var pushButtonData = new PushButtonData(InternalName, buttonName, assemblyPath, className);
+            //Get our base nae
+            var baseName = commandToBaseName(className);
+
+            //Create a data object
+            var pushButtonData = new PushButtonData(baseName, buttonName, Global.AssemblyPath, className);
 
             if (panel.AddItem(pushButtonData) is PushButton pushButton)
             {
-                pushButton.ToolTip = "Testing tooltip";
+                pushButton.ToolTip = LookupTooltip(baseName);
                 //pushButton.Image = null
                 pushButton.LargeImage = null;
 
@@ -92,13 +95,30 @@ namespace Lema._Utilities
                 Debug.WriteLine($"ERROR: Could not add {buttonName} to panel");
                 return null;
 
-            }  
+            }
+        }
+
+        //method to get base name
+        public static string commandToBaseName(string commandName)
+        {
+            return commandName.Replace("Lema.Cmds_", "").Replace("Cmd_", "");
+        }
+
+        public static string LookupTooltip(string key, string failValue=null)
+        {
+            failValue ??= "No tooltip found";
+            if (Global.Tooltips.TryGetValue(key, out string value))
+            {
+                return value;
+            }
+            else
+            {
+                return failValue;
+            }
+        }
 
 
 
             
-
-
-        }
     }
 }
