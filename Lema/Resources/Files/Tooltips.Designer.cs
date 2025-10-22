@@ -70,5 +70,95 @@ namespace Lema.Resources.Files {
                 return ResourceManager.GetString("General.Test", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a PullDownButton.
+        /// </summary>
+        internal static string PullDown {
+            get {
+                return ResourceManager.GetString("PullDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is button 1 of the PulldownButton..
+        /// </summary>
+        internal static string PullDown_1Button {
+            get {
+                return ResourceManager.GetString("PullDown_1Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is button 2 of the PulldownButton..
+        /// </summary>
+        internal static string Pulldown_2Button {
+            get {
+                return ResourceManager.GetString("Pulldown_2Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is button 3 of the PulldownButton..
+        /// </summary>
+        internal static string Pulldown_3Button {
+            get {
+                return ResourceManager.GetString("Pulldown_3Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is an example of stacking buttons..
+        /// </summary>
+        internal static string Stack1 {
+            get {
+                return ResourceManager.GetString("Stack1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is an example of stacking buttons..
+        /// </summary>
+        internal static string Stack1_Button {
+            get {
+                return ResourceManager.GetString("Stack1_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is an example of stacking buttons..
+        /// </summary>
+        internal static string Stack2 {
+            get {
+                return ResourceManager.GetString("Stack2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is an example of stacking buttons..
+        /// </summary>
+        internal static string Stack2_Button {
+            get {
+                return ResourceManager.GetString("Stack2_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is an example of stacking buttons..
+        /// </summary>
+        internal static string Stack3 {
+            get {
+                return ResourceManager.GetString("Stack3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is an example of stacking Buttons.
+        /// </summary>
+        internal static string Stack3_Button {
+            get {
+                return ResourceManager.GetString("Stack3_Button", resourceCulture);
+            }
+        }
     }
 }

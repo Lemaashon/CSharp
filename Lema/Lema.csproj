@@ -50,6 +50,14 @@
         <IsRepackable>false</IsRepackable>
         <DeployRevitAddin>true</DeployRevitAddin>
     </PropertyGroup>
+    <ItemGroup>
+      <None Remove="Resources\Icons16\General_Test16.png" />
+      <None Remove="Resources\Icons32\General_Test32.png" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\Icons16\*" />
+      <EmbeddedResource Include="Resources\Icons32\*" />
+    </ItemGroup>
 
     <ItemGroup>
         <!-- Revit References -->

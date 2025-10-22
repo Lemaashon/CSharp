@@ -5,98 +5,62 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Lema._Utilities
 {
     public static class Ribbon_Utils
     {
-        // Method to add a new ribbon tab
-        public static Result AddRibbonTab(UIControlledApplication uiCtrlApp, string tabName)
-            {
-            try
-            {
-                uiCtrlApp.CreateRibbonTab(tabName);
-                return Result.Succeeded;
-            }
-            catch (Exception ex)
-            {
-                // Handle the exception (e.g., log it)
-                TaskDialog.Show("Error", $"Failed to create ribbon tab: {ex.Message}");
-                return Result.Failed;
-            }
-        }
-
-        // Method to add a new ribbon panel to an existing tab
-        public static RibbonPanel? AddRibbonPanelToTab(UIControlledApplication uiCtrlApp, string tabName, string panelName)
-        {
-            try
-            {
-                uiCtrlApp.CreateRibbonPanel(tabName, panelName);
-            }
-            catch
-            {
-                Debug.WriteLine($"ERROR: Could not add {panelName} to {tabName}");
-                return null;
-            }
-
-            return GetRibbonPanelByName(uiCtrlApp, tabName, panelName);
-        }
-
-        // Method to retrieve a ribbon panel by its name from a specific tab
-        public static RibbonPanel? GetRibbonPanelByName(UIControlledApplication uiCtrlApp, string tabName, string panelName)
-        {
-            var panels = uiCtrlApp.GetRibbonPanels(tabName);
-
-            foreach (var panel in panels)
-            {
-                if (panel.Name == panelName)
-                {
-                    return panel;
-                }
-            }
-            return null;
-        }
-
-        //Method to add button to panel
+        #region Button Data
         /// <summary>
-        /// Method will be described as in the hover menu
+        /// Create a PushButtonData object.
         /// </summary>
-        /// <param name="panel">This is the ribbonpanel to add to.</param>
-        /// <param name="buttonName">Test</param>
-        /// <param name="classname">Test</param>
-        /// <param name="InternalName">Test</param>
-        /// <param name="assemblyPath">Test</param>
-        /// <returns></returns>
-        public static PushButton? AddPushButtonToPanel(RibbonPanel panel, string buttonName, string className)
+        /// <param name="buttonName"></param>
+        /// <param name="className"></param>
+        /// <returns>A PushButtonData object.</returns>
+        public static PushButtonData? NewPushButtonData( string buttonName, string className)
         {
-            if (panel is null)
-            {
-                Debug.WriteLine($"ERROR: Could not add {buttonName} to panel");
-                return null;
-            }
-
             //Get our base nae
             var baseName = commandToBaseName(className);
 
             //Create a data object
             var pushButtonData = new PushButtonData(baseName, buttonName, Global.AssemblyPath, className);
 
-            if (panel.AddItem(pushButtonData) is PushButton pushButton)
-            {
-                pushButton.ToolTip = LookupTooltip(baseName);
-                //pushButton.Image = null
-                pushButton.LargeImage = null;
+            //Set the values
+            pushButtonData.ToolTip = LookupTooltip(baseName);
+            pushButtonData.Image = GetIcon(baseName, resolution: 16);
+            pushButtonData.LargeImage = GetIcon(baseName, resolution: 32);
 
-                return pushButton;
-            }
+            //Return the object
+            return pushButtonData;
 
-            else
-            {
-                Debug.WriteLine($"ERROR: Could not add {buttonName} to panel");
-                return null;
-
-            }
         }
+        /// <summary>
+        /// Create a PulldownButtonData object.
+        /// </summary>
+        /// <param name="buttonName"></param>
+        /// <param name="className"></param>
+        /// <returns>A PulldownButtonData object.</returns>
+        public static PulldownButtonData? NewPulldownButtonData(string buttonName, string className)
+        {
+            //Get our base nae
+            var baseName = commandToBaseName(className);
+
+            //Create a data object
+            var pulldownButtonData = new PulldownButtonData(baseName, buttonName);
+
+            //Set the values
+            pulldownButtonData.ToolTip = LookupTooltip(baseName);
+            pulldownButtonData.Image = GetIcon(baseName, resolution: 16);
+            pulldownButtonData.LargeImage = GetIcon(baseName, resolution: 32);
+
+            //Return the object
+            return pulldownButtonData;
+
+        }
+        #endregion
+
 
         //method to get base name
         public static string commandToBaseName(string commandName)
@@ -114,6 +78,30 @@ namespace Lema._Utilities
             else
             {
                 return failValue;
+            }
+        }
+
+        //Method to get an icon as an image source
+        public static ImageSource GetIcon(string baseName, int resolution =32)
+        {
+            var resourcePath = $"Lema.Resources.Icons{resolution}.{baseName}{resolution}.png";
+
+            using (var stream = Global.Assembly.GetManifestResourceStream(resourcePath))
+            {
+                if(stream is null) { return null; }
+
+                var decoder = new PngBitmapDecoder(
+                    stream, 
+                    BitmapCreateOptions.PreservePixelFormat, 
+                    BitmapCacheOption.Default);
+                if (decoder.Frames.Count>0)
+                {
+                    return decoder.Frames.First();
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 

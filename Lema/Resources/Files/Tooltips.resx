@@ -122,4 +122,34 @@
 
 We can do extra lines.</value>
   </data>
+  <data name="PullDown" xml:space="preserve">
+    <value>This is a PullDownButton</value>
+  </data>
+  <data name="PullDown_1Button" xml:space="preserve">
+    <value>This is button 1 of the PulldownButton.</value>
+  </data>
+  <data name="Pulldown_2Button" xml:space="preserve">
+    <value>This is button 2 of the PulldownButton.</value>
+  </data>
+  <data name="Pulldown_3Button" xml:space="preserve">
+    <value>This is button 3 of the PulldownButton.</value>
+  </data>
+  <data name="Stack1" xml:space="preserve">
+    <value>This is an example of stacking buttons.</value>
+  </data>
+  <data name="Stack1_Button" xml:space="preserve">
+    <value>This is an example of stacking buttons.</value>
+  </data>
+  <data name="Stack2" xml:space="preserve">
+    <value>This is an example of stacking buttons.</value>
+  </data>
+  <data name="Stack2_Button" xml:space="preserve">
+    <value>This is an example of stacking buttons.</value>
+  </data>
+  <data name="Stack3" xml:space="preserve">
+    <value>This is an example of stacking buttons.</value>
+  </data>
+  <data name="Stack3_Button" xml:space="preserve">
+    <value>This is an example of stacking Buttons</value>
+  </data>
 </root>

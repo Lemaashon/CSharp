@@ -8,6 +8,7 @@ using Autodesk.Revit.UI.Events;
 
 //Lema
 using gRib = Lema._Utilities.Ribbon_Utils;
+using Lema.Extensions;
 //This application belongs to the root namespace
 namespace Lema
 {
@@ -41,13 +42,37 @@ namespace Lema
             #region Ribbon Setup
             // Register your command here if needed
             //Add ribbon tab
-            gRib.AddRibbonTab(uiCtrlApp, Global.AddinName);
+            uiCtrlApp.AddRibbonTab(Global.AddinName);
 
             //Create Panel
-            var panelGeneral = gRib.AddRibbonPanelToTab(uiCtrlApp, Global.AddinName, "General");
+            var panelGeneral = uiCtrlApp.AddRibbonPanel(Global.AddinName, "General");
 
             //Add button to Panel
-            var buttonTest = gRib.AddPushButtonToPanel(panelGeneral, "Testing", "Lema.Cmds_General.Cmd_Test");
+            var buttonTest = panelGeneral.AddPushButton("Testing", "Lema.Cmds_General.Cmd_Test");
+
+            // Add pulldownbutton to panel
+            var pulldownTest = panelGeneral.AddPulldownButton("PullDown", "Lema.Cmds_PullDown");
+
+            //Add buttons to pulldown
+            pulldownTest.AddPushButton("Button 1", "Lema.Cmds_PullDown.Cmd_1Button");
+            pulldownTest.AddPushButton("Button 2", "Lema.Cmds_PullDown.Cmd_2Button");
+            pulldownTest.AddPushButton("Button 3", "Lema.Cmds_PullDown.Cmd_3Button");
+
+            // Create data objects for the stack
+            var stack1Data= gRib.NewPulldownButtonData("Stack 1", "Lema.Cmds.Cmd_Stack1");
+            var stack2Data = gRib.NewPulldownButtonData("Stack 2", "Lema.Cmds.Cmd_Stack2");
+            var stack3Data = gRib.NewPulldownButtonData("Stack 3", "Lema.Cmds.Cmd_Stack3");
+
+            //Create the stack
+            var stack = panelGeneral.AddStackedItems(stack1Data, stack2Data, stack3Data);
+            PulldownButton pulldownStack1 = stack[0] as PulldownButton;
+            PulldownButton pulldownStack2 = stack[1] as PulldownButton;
+            PulldownButton pulldownStack3 = stack[2] as PulldownButton;
+
+            // Add buttons to stacked pulldowns
+            pulldownStack1.AddPushButton("Button", "Lema.Cmds_Stack1.Cmd_Button");
+            pulldownStack2.AddPushButton("Button", "Lema.Cmds_Stack2.Cmd_Button");
+            pulldownStack3.AddPushButton("Button", "Lema.Cmds_Stack3.Cmd_Button");
             #endregion
 
             //Final return
