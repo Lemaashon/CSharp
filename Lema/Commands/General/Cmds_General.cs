@@ -1,6 +1,7 @@
 ﻿//Autodesk
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.UI;
+using Lema.Extensions;
 
 //Associate with general commands
 namespace Lema.Cmds_General
@@ -20,7 +21,12 @@ namespace Lema.Cmds_General
             Document doc = uiDoc.Document;
 
             // Implement your command logic here
-            TaskDialog.Show("It´s working", doc.Title);
+            //Collect all sheets
+            var sheets = doc.Ext_GetSheets();
+            var revisions = doc.Ext_GetRevisions();
+
+            TaskDialog.Show(doc.Title, $"We have {sheets.Count} sheets in the model.");
+            TaskDialog.Show(doc.Title, $"We have {revisions.Count} revisions in the model.");
             return Result.Succeeded;
         }
     }
