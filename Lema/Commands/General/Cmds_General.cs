@@ -2,6 +2,7 @@
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.UI;
 using Lema.Extensions;
+using gFrm = Lema.Forms;
 
 //Associate with general commands
 namespace Lema.Cmds_General
@@ -21,13 +22,14 @@ namespace Lema.Cmds_General
             Document doc = uiDoc.Document;
 
             // Implement your command logic here
-            //Collect all sheets
-            var sheets = doc.Ext_GetSheets();
-            var revisions = doc.Ext_GetRevisions();
+            gFrm.Custom.Message(message: "This is a message form.");
+            var yesNoResult = gFrm.Custom.Message(message: "This is a YesNo form.", yesNo:true); 
+            if (yesNoResult.Cancelled) { return gFrm.Custom.Cancelled("No was chosen."); }
 
-            TaskDialog.Show(doc.Title, $"We have {sheets.Count} sheets in the model.");
-            TaskDialog.Show(doc.Title, $"We have {revisions.Count} revisions in the model.");
-            return Result.Succeeded;
+            gFrm.Custom.Error("An error did not occur, just showing this form.");
+
+
+            return gFrm.Custom.Completed("Script Completed");
         }
     }
 }

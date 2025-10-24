@@ -67,6 +67,10 @@
         <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*" />
         <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="System.Windows.Forms" />
+    </ItemGroup>
     
     <ItemGroup>
         <Resource Include="Resources\Icons\RibbonIcon16.png" />
