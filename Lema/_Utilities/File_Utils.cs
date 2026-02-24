@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using Form = System.Windows.Forms.Form;
 using System.Drawing;
+using ClosedXML.Excel;
+using Autodesk.Revit.UI;
 
 namespace Lema._Utilities
 {
@@ -31,5 +33,57 @@ namespace Lema._Utilities
                 }
             }
         }
+
+        /// <summary>
+        /// Check if a file can be read.
+        /// </summary>
+        /// <param name="filePath">The file path to check.</param>
+        /// <returns>A boolean</returns>
+        public static bool IsFileReadable(string filePath)
+        {
+            // Catch if file does not exist
+            if (!File.Exists(filePath))
+            {
+                return false;
+            }
+
+            // Try to read the file
+            try
+            {
+                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="directoryPath"></param>
+        /// <returns></returns>
+        public static Result OpenDirectory(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                return Result.Failed;
+            }
+
+            try
+            {
+                System.Diagnostics.Process.Start("explorer.exe", directoryPath);
+                return Result.Succeeded;
+            }
+            catch
+            {
+                return Result.Failed;
+            }
+        }
+
+
     }
 }

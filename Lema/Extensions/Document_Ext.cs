@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using View = Autodesk.Revit.DB.View;
 
 namespace Lema.Extensions
 {
@@ -89,5 +90,57 @@ namespace Lema.Extensions
                 return revisions;
             }
         }
+        /// <summary>
+        /// Get the ProjectInfo element from the document
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public static ProjectInfo Ext_GetProjectInfo(this Document doc)
+        {
+            // Collect the ProjectInfo element
+            var projectInfo = new FilteredElementCollector(doc)
+                .OfClass(typeof(ProjectInfo))
+                .Cast<ProjectInfo>()
+                .FirstOrDefault();
+
+            return projectInfo;
+        }
+        public static Dictionary<string, object> GetParameters(this ProjectInfo projectInfo, List<string> paramNames)
+        {
+            var result = new Dictionary<string, object>();
+
+            foreach (var paramName in paramNames)
+            {
+                Parameter param = projectInfo.LookupParameter(paramName);
+                if (param == null)
+                {
+                    result[paramName] = null; // Parameter not found
+                    continue;
+                }
+
+                switch (param.StorageType)
+                {
+                    case StorageType.Integer:
+                        result[paramName] = param.AsInteger();
+                        break;
+                    case StorageType.Double:
+                        result[paramName] = param.AsDouble();
+                        break;
+                    case StorageType.String:
+                        result[paramName] = param.AsString();
+                        break;
+                    case StorageType.ElementId:
+                        result[paramName] = param.AsElementId();
+                        break;
+                    default:
+                        result[paramName] = null;
+                        break;
+                }
+            }
+
+            return result;
+        }
+
+
     }
 }
