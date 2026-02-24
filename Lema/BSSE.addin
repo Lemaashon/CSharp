@@ -1,15 +1,15 @@
 ﻿<RevitAddIns>
     <AddIn Type="Application">
-        <Name>Lema</Name>
-        <Assembly>Lema\Lema.dll</Assembly>
-        <AddInId>251380C0-FE9D-45CE-977B-1497CFC3B037</AddInId>
-        <FullClassName>Lema.Application</FullClassName>
+        <Name>BSSE</Name>
+        <Assembly>BSSE\BSSE.dll</Assembly>
+        <AddInId>D193952B-C3CA-4064-87B9-1E7BEF6A2D9B</AddInId>
+        <FullClassName>BSSE.App</FullClassName>
         <VendorId>Development</VendorId>
         <VendorDescription></VendorDescription>
         <VendorEmail></VendorEmail>
     </AddIn>
     <ManifestSettings>
         <UseRevitContext>False</UseRevitContext>
-        <ContextName>Lema</ContextName>
+        <ContextName>BSSE</ContextName>
     </ManifestSettings>
 </RevitAddIns>
