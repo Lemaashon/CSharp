@@ -175,9 +175,24 @@ namespace BSSE.Services
 
             if (existing is IntegerParameterValue)
             {
-                // Yes/No global parameter. Normalise truthy/falsy input from
-                // JSON (bool, string, number) to 0 or 1.
-                wrapped = new IntegerParameterValue(NormaliseToInt(newValue));
+                // IntegerParameterValue covers TWO distinct Revit parameter kinds:
+                //
+                //   A) Yes/No (boolean) — e.g. client flags, STR_Rod_withHook.
+                //      ForgeTypeId == SpecTypeId.Boolean.YesNo.
+                //      Value must be normalised to 0 or 1.
+                //
+                //   B) Genuine integer — e.g. STR_Anchors_NumberofBolts = 36.
+                //      ForgeTypeId is anything else (SpecTypeId.Int.Integer, etc.)
+                //      Value must be written as-is, never clamped to 0/1.
+                //
+                // Inspecting GetDataType() is the only reliable way to distinguish
+                // the two — the stored ParameterValue subtype alone is insufficient.
+                ForgeTypeId dataType = gp.GetDefinition().GetDataType();
+                bool isYesNo = dataType.Equals(SpecTypeId.Boolean.YesNo);
+
+                wrapped = isYesNo
+                    ? new IntegerParameterValue(NormaliseToInt(newValue))
+                    : new IntegerParameterValue(Convert.ToInt32(newValue));
             }
             else if (existing is DoubleParameterValue)
             {
