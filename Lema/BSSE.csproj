@@ -70,8 +70,6 @@
     
     <ItemGroup>
       <Folder Include="Extensions\" />
-      <Folder Include="General\" />
-      <Folder Include="Resources\" />
     </ItemGroup>
 
 </Project>

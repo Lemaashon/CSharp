@@ -6,6 +6,7 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
 using DocumentFormat.OpenXml.Office2010.CustomUI;
 
+using BSSE.Utilities;
 
 
 //This application belongs to the root namespace
@@ -22,6 +23,7 @@ namespace BSSE
         // ── Constants ────────────────────────────────────────────────────────────
 
         private const string TabName = "BSSE";
+        private const string baseName = "check";
         private const string PanelName = "BIM Foundations";
         private const string ButtonName = "UpdateRebar";
         private const string ButtonText = "UpdateRebar";
@@ -43,6 +45,7 @@ namespace BSSE
             catch 
             {
             }
+
             RibbonPanel panel = application.CreateRibbonPanel(TabName, PanelName);
 
             // Resolve class name and assembly path at runtime so this is
@@ -62,6 +65,8 @@ namespace BSSE
                 // Availability: always available so the user can run it from any view.
                 // Swap to a custom IExternalCommandAvailability later if needed.
             };
+            buttonData.LargeImage = RibbonUtils.GetIcon(baseName, resolution: 32);
+            buttonData.Image = RibbonUtils.GetIcon(baseName, resolution: 16);
 
             panel.AddItem(buttonData);
             //Final return
