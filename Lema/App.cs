@@ -23,7 +23,7 @@ namespace BSSE
         // ── Constants ────────────────────────────────────────────────────────────
 
         private const string TabName = "BSSE";
-        private const string baseName = "check";
+        private const string baseName = "tower";
         private const string PanelName = "BIM Foundations";
         private const string ButtonName = "UpdateRebar";
         private const string ButtonText = "UpdateRebar";
@@ -34,6 +34,12 @@ namespace BSSE
         //This will run on startup
         public Result OnStartup(UIControlledApplication application)
         {
+            // Capture the assembly ONCE here, before any GetIcon call.
+            // This is the correct place — GetExecutingAssembly() returns the BSSE
+            // assembly reliably during OnStartup. Doing it inside GetIcon caused
+            // the naming collision that produced blank icons (see RibbonUtils.cs).
+            RibbonUtils.PluginAssembly = Assembly.GetExecutingAssembly();
+            RibbonUtils.AssemblyPath = RibbonUtils.PluginAssembly.Location;
 
             try
             {
@@ -52,7 +58,7 @@ namespace BSSE
             // refactor-safe: renaming Commands.RunLemaCommand will break the build,
             // not silently produce a bad manifest string.
             string commandClass = typeof(Commands.cmds_General).FullName;
-            string assemblyPath = typeof(App).Assembly.Location;
+            string assemblyPath = RibbonUtils.AssemblyPath;
 
             var buttonData = new PushButtonData(
                 name: ButtonName,
@@ -61,12 +67,13 @@ namespace BSSE
                 className: commandClass)
             {
                 ToolTip = ButtonTip,
+                LargeImage = RibbonUtils.GetIcon(baseName, resolution: 32),
+                Image = RibbonUtils.GetIcon(baseName, resolution: 32),
+                ToolTipImage = RibbonUtils.GetIcon(baseName, resolution: 32)
 
                 // Availability: always available so the user can run it from any view.
                 // Swap to a custom IExternalCommandAvailability later if needed.
             };
-            buttonData.LargeImage = RibbonUtils.GetIcon(baseName, resolution: 32);
-            buttonData.Image = RibbonUtils.GetIcon(baseName, resolution: 16);
 
             panel.AddItem(buttonData);
             //Final return
