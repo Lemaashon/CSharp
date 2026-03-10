@@ -103,6 +103,7 @@ namespace BSSE.Services
             double barTypeOne = barOneInfo.BarType;
             double diameterOuter = projectConfig.BasePlateDiameterOuter;
             double foundationDepth = projectConfig.FoundationDepth;
+            double barfivehooklength = projectConfig.RebarFiveHookLength;
 
             // ── Step 2: Compute stirrup extents (all values in mm) ────────────────
             // Mirrors Python lines 315–319 exactly — arithmetic is identical.
@@ -177,7 +178,7 @@ namespace BSSE.Services
                 List<string> entryResults = ProcessBarEntry(
                     doc, configKey, configValues,
                     barInfo, stirrupPerimeterLength,
-                    rebarTypes, allRebars);
+                    rebarTypes, allRebars, barfivehooklength);
 
                 results.AddRange(entryResults);
             }
@@ -197,7 +198,8 @@ namespace BSSE.Services
             Dictionary<string, BarInfo> barInfo,
             double stirrupPerimeterLength,
             IList<Element> rebarTypes,
-            IList<Element> allRebars)
+            IList<Element> allRebars,
+            double barfivehooklength)
         {
             var results = new List<string>();
 
@@ -206,6 +208,8 @@ namespace BSSE.Services
 
             double barDiameter = configValues.BarType;
             string barTypeName = FormatDiameterForTypeMatch(barDiameter);
+            
+
 
             // ── Resolve spacing ───────────────────────────────────────────────────
             // For bar "5": spacing is derived from stirrup perimeter, not from JSON.
@@ -253,7 +257,7 @@ namespace BSSE.Services
                     fixedNumber, spacingFt,
                     configValues.Number.HasValue ? (fixedNumber / 4.0 + 1.0) : (double?)null,
                     desiredType,
-                    results);
+                    results, barfivehooklength);
 
                 if (changed) anyChange = true;
             }
@@ -280,7 +284,8 @@ namespace BSSE.Services
             double? spacingFt,
             double? numberPerFace,
             Element desiredType,
-            List<string> results)
+            List<string> results,
+            double barfivehooklength)
         {
             bool changesMade = false;
 
@@ -373,6 +378,12 @@ namespace BSSE.Services
                 double hookFt = UnitConverter.MmToFt(BarThreeFactor * barDiameter);
                 changesMade |= SetHookParameter(rebar, "A", hookFt, configKey, results);
                 changesMade |= SetHookParameter(rebar, "C", hookFt, configKey, results);
+            }
+
+            if (configKey == "5")
+            {
+                double hookFt = UnitConverter.MmToFt(barfivehooklength);
+                changesMade |= SetHookParameter(rebar, "A", hookFt, configKey, results);
             }
 
             return changesMade;

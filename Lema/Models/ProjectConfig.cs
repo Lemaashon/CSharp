@@ -52,7 +52,13 @@ namespace BSSE.Models
         /// </summary>
         [JsonProperty("STR_BasePlate_DiameterOuter")]
         public double BasePlateDiameterOuter { get; set; }
-
+        /// <summary>
+        /// Length of hook for bar 5 in millimetres.
+        /// Used by RebarService to modify bar 5 hook length .
+        /// Maps to global parameter: STR_RebarFive_Hooklength
+        /// </summary>
+        [JsonProperty("STR_RebarFive_Hooklength")]
+        public double RebarFiveHookLength { get; set; }
         /// <summary>
         /// Client name string (e.g. "bouygues", "selecom").
         /// GlobalParameterService uses the clientDict lookup to activate
